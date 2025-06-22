@@ -7,13 +7,10 @@ object Requirement8{
     //read the csv file into DataFrame
     val salesDF = spark.read.option("header", "true").csv("C:/Users/gomall/Downloads/sparsales.csv")
     //group by item type and count the number of orders
-    val itemOrdersDF=salesDF.groupBy("Item Type").agg(count("Order ID").as("Number_of_orders")).persist()
+    val salesDF1=salesDF.coalesce(1)
+    val itemOrdersDF=salesDF1.groupBy("Item Type").agg(count("Order ID").as("Number_of_orders")).persist()
     itemOrdersDF.show()
-
-    itemOrdersDF.coalesce(1).write.partitionBy("Item Type").parquet("C:/Users/gomall/Desktop/requirement8.csv")
+    itemOrdersDF.write.partitionBy("Item Type").parquet("C:/Users/gomall/Desktop/requirement8.csv")
     spark.stop()
-
-
   }
-
 }
