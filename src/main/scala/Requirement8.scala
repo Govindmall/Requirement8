@@ -10,7 +10,7 @@ object Requirement8{
     val salesDF1=salesDF.coalesce(1)
     val itemOrdersDF=salesDF1.groupBy("Item Type").agg(count("Order ID").as("Number_of_orders")).persist()
     itemOrdersDF.show()
-    itemOrdersDF.write.partitionBy("Item Type").parquet("C:/Users/gomall/Desktop/requirement8.csv")
+    itemOrdersDF.write.partitionBy("Item Type").parquet("C:/Users/gomall/Desktop/requirement8.parquet")
     spark.stop()
   }
 }
